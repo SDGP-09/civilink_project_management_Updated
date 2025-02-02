@@ -1,13 +1,9 @@
 package com.civilink.civilink_project_management.entities;
 
-
 import jakarta.persistence.*;
-import java.util.List;
-
 
 @Entity
-public class MainTask {
-
+public class SubTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,15 +13,17 @@ public class MainTask {
     private String endDate;
     private String description;
 
-    @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SubTask> subtasks;
+    @ManyToOne
+    @JoinColumn(name = "main_task_id", nullable = false)
+    private MainTask mainTask;
 
     @ManyToOne
     @JoinColumn(name = "contractor_id", nullable = false)
     private Contractor contractor;
 
 
-    public MainTask() {
+
+    public SubTask() {
     }
 
     public Integer getId() {
@@ -76,12 +74,12 @@ public class MainTask {
         this.description = description;
     }
 
-    public List<SubTask> getSubtasks() {
-        return subtasks;
+    public MainTask getMainTask() {
+        return mainTask;
     }
 
-    public void setSubtasks(List<SubTask> subtasks) {
-        this.subtasks = subtasks;
+    public void setMainTask(MainTask mainTask) {
+        this.mainTask = mainTask;
     }
 
     public Contractor getContractor() {

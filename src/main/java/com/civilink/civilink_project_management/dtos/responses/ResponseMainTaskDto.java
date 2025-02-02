@@ -1,31 +1,17 @@
-package com.civilink.civilink_project_management.entities;
-
-
-import jakarta.persistence.*;
+package com.civilink.civilink_project_management.dtos.responses;
 import java.util.List;
 
-
-@Entity
-public class MainTask {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ResponseMainTaskDto {
     private Integer id;
     private String taskname;
-    private String status;  // Pending, In Progress, Completed
+    private String status;
     private String startDate;
     private String endDate;
     private String description;
+    private List<ResponseSubTaskDto> subtasks;
+    private ResponseContractorDto contractor;
 
-    @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SubTask> subtasks;
-
-    @ManyToOne
-    @JoinColumn(name = "contractor_id", nullable = false)
-    private Contractor contractor;
-
-
-    public MainTask() {
+    public ResponseMainTaskDto() {
     }
 
     public Integer getId() {
@@ -76,19 +62,19 @@ public class MainTask {
         this.description = description;
     }
 
-    public List<SubTask> getSubtasks() {
+    public List<ResponseSubTaskDto> getSubtasks() {
         return subtasks;
     }
 
-    public void setSubtasks(List<SubTask> subtasks) {
+    public void setSubtasks(List<ResponseSubTaskDto> subtasks) {
         this.subtasks = subtasks;
     }
 
-    public Contractor getContractor() {
+    public ResponseContractorDto getContractor() {
         return contractor;
     }
 
-    public void setContractor(Contractor contractor) {
+    public void setContractor(ResponseContractorDto contractor) {
         this.contractor = contractor;
     }
 }
