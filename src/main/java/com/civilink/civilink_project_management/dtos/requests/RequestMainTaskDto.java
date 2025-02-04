@@ -1,18 +1,19 @@
 package com.civilink.civilink_project_management.dtos.requests;
+import java.time.LocalDate;
 import java.util.List;
 
 public class RequestMainTaskDto {
 
     private String taskname;
     private String status;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
     private List<Integer> subtaskIds;  // Reference to SubTask IDs
     private Integer contractorId;     // Reference to Contractor ID
 
 
-    public RequestMainTaskDto(String taskname,String status,String startDate,String endDate,String description,List<Integer>subtaskIds,Integer contractorId) {
+    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description,List<Integer>subtaskIds,Integer contractorId) {
         this.taskname = taskname;
         this.status = status;
         this.startDate = startDate;
@@ -39,17 +40,17 @@ public class RequestMainTaskDto {
         this.status = status;
     }
 
-    public String getStartDate() {return startDate;
+    public LocalDate getStartDate() {return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {return endDate;
+    public LocalDate getEndDate() {return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate( LocalDate endDate) {
         this.endDate = endDate;
     }
 

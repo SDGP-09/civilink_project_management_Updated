@@ -1,7 +1,7 @@
 package com.civilink.civilink_project_management.entities;
 
-
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -11,13 +11,14 @@ public class MainTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String taskname;
     private String status;  // Pending, In Progress, Completed
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
 
-    @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<SubTask> subtasks;
 
     @ManyToOne
@@ -52,19 +53,19 @@ public class MainTask {
         this.status = status;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

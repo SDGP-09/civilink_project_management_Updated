@@ -1,22 +1,23 @@
 package com.civilink.civilink_project_management.dtos.requests;
 
+import java.time.LocalDate;
+
 public class RequestSubTaskDto {
     private String taskname;
     private String status;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
     private Integer mainTaskId;  // Reference to the MainTask ID
-    private Integer contractorId;  // Reference to the Contractor ID
 
-    public RequestSubTaskDto(String taskname,String status, String startDate, String endDate, String description, Integer maintaskId, Integer contractorId) {
+    public RequestSubTaskDto(String taskname,String status, LocalDate startDate, LocalDate endDate, String description, Integer maintaskId) {
         this.taskname = taskname;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
         this.mainTaskId = maintaskId;
-        this.contractorId = contractorId;
+
     }
 
     public RequestSubTaskDto() {
@@ -38,19 +39,19 @@ public class RequestSubTaskDto {
         this.status = status;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -70,11 +71,5 @@ public class RequestSubTaskDto {
         this.mainTaskId = mainTaskId;
     }
 
-    public Integer getContractorId() {
-        return contractorId;
-    }
 
-    public void setContractorId(Integer contractorId) {
-        this.contractorId = contractorId;
-    }
 }

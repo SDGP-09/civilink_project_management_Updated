@@ -7,7 +7,7 @@ public class ResponseContractorDto {
     private String email;
     private String contact;
 
-    public ResponseContractorDto(Integer id,String name, String email, String contact) {
+    public ResponseContractorDto(Integer id, String name, String email, String contact) {
         this.id = id;
         this.name = name;
         this.email = email;

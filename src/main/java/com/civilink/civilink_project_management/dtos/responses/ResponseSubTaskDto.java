@@ -1,15 +1,17 @@
 package com.civilink.civilink_project_management.dtos.responses;
 
 
+import java.time.LocalDate;
+
 public class ResponseSubTaskDto {
     private Integer id;
     private String taskname;
     private String status;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
     private Integer mainTaskId;  // Reference to the MainTask ID
-    private ResponseContractorDto contractor;  // Full contractor details
+
 
     public ResponseSubTaskDto() {
     }
@@ -38,19 +40,19 @@ public class ResponseSubTaskDto {
         this.status = status;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate( LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -70,11 +72,5 @@ public class ResponseSubTaskDto {
         this.mainTaskId = mainTaskId;
     }
 
-    public ResponseContractorDto getContractor() {
-        return contractor;
-    }
 
-    public void setContractor(ResponseContractorDto contractor) {
-        this.contractor = contractor;
-    }
 }

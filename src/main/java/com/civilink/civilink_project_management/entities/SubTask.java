@@ -1,6 +1,7 @@
 package com.civilink.civilink_project_management.entities;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class SubTask {
@@ -8,19 +9,14 @@ public class SubTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String taskname;
-    private String status;  // Pending, In Progress, Completed
-    private String startDate;
-    private String endDate;
+    private String status;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "main_task_id", nullable = false)
     private MainTask mainTask;
-
-    @ManyToOne
-    @JoinColumn(name = "contractor_id", nullable = false)
-    private Contractor contractor;
-
 
 
     public SubTask() {
@@ -50,19 +46,19 @@ public class SubTask {
         this.status = status;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -82,11 +78,5 @@ public class SubTask {
         this.mainTask = mainTask;
     }
 
-    public Contractor getContractor() {
-        return contractor;
-    }
 
-    public void setContractor(Contractor contractor) {
-        this.contractor = contractor;
-    }
 }
