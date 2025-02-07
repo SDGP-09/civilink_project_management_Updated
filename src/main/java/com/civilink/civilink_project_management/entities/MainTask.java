@@ -9,11 +9,11 @@ import java.util.List;
 public class MainTask {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String taskname;
-    private String status;  // Pending, In Progress, Completed
+    private String status;   // Pending, In Progress, Completed
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
@@ -21,6 +21,8 @@ public class MainTask {
     @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<SubTask> subtasks;
 
+
+    // Many tasks belong to one contractor
     @ManyToOne
     @JoinColumn(name = "contractor_id", nullable = false)
     private Contractor contractor;
@@ -29,11 +31,11 @@ public class MainTask {
     public MainTask() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

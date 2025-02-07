@@ -7,22 +7,26 @@ import com.civilink.civilink_project_management.entities.MainTask;
 import com.civilink.civilink_project_management.repositories.ContractorRepository;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.CreateMainTaskService;
-import com.civilink.civilink_project_management.util.MaintaskUtil;
+import com.civilink.civilink_project_management.util.ContractorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 
 @Service
 public class CreateMainTaskImpl implements CreateMainTaskService {
     private final MainTaskRepository mainTaskRepository;
     private final ContractorRepository contractorRepository;
-    private final MaintaskUtil maintaskUtil;
+    private final ContractorUtil contractorUtil;
+
 
     @Autowired
-    public CreateMainTaskImpl(MainTaskRepository mainTaskRepository, ContractorRepository contractorRepository, MaintaskUtil maintaskUtil) {
+    public CreateMainTaskImpl(MainTaskRepository mainTaskRepository, ContractorRepository contractorRepository, ContractorUtil contractorUtil) {
         this.mainTaskRepository = mainTaskRepository;
         this.contractorRepository = contractorRepository;
-        this.maintaskUtil = maintaskUtil;
+        this.contractorUtil = contractorUtil;
+
     }
 
     @Override
@@ -43,18 +47,30 @@ public class CreateMainTaskImpl implements CreateMainTaskService {
         mainTask.setContractor(contractor);
 
         // Save to the database
-        MainTask savedMainTask = mainTaskRepository.save(mainTask);
-
-        return maintaskUtil.convertToResponseMainTaskDto(savedMainTask);
+        MainTask savedmainTask = mainTaskRepository.save(mainTask);
 
 
+        //convert to responsedto
+        ResponseMainTaskDto responseMainTaskDto = new ResponseMainTaskDto();
+        responseMainTaskDto.setId(savedmainTask.getId());
+        responseMainTaskDto.setTaskname(savedmainTask.getTaskname());
+        responseMainTaskDto.setStatus(savedmainTask.getStatus());
+        responseMainTaskDto.setStartDate(savedmainTask.getStartDate());
+        responseMainTaskDto.setEndDate(savedmainTask.getEndDate());
+        responseMainTaskDto.setDescription(savedmainTask.getDescription());
+        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(mainTask.getContractor()));
 
+
+        return responseMainTaskDto;
     }
 
 
-
-
 }
+
+
+
+
+
 
 
 

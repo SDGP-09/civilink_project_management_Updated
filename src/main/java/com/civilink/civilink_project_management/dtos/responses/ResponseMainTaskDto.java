@@ -2,8 +2,9 @@ package com.civilink.civilink_project_management.dtos.responses;
 import java.time.LocalDate;
 import java.util.List;
 
+
 public class ResponseMainTaskDto {
-    private Integer id;
+    private Long id;
     private String taskname;
     private String status;
     private LocalDate startDate;
@@ -15,11 +16,11 @@ public class ResponseMainTaskDto {
     public ResponseMainTaskDto() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

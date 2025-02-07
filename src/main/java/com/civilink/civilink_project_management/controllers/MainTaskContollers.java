@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/main-tasks")
@@ -41,7 +42,7 @@ public class MainTaskContollers {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StandardResponse> getMainTaskById(@PathVariable Integer id) {
+    public ResponseEntity<StandardResponse> getMainTaskById(@PathVariable Long id) {
         ResponseMainTaskDto response = retrieveMainTasksService.getMainTaskById(id);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Main task retrieved successfully", response),

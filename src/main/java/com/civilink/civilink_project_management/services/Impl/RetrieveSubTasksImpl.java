@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,14 +31,13 @@ public class RetrieveSubTasksImpl implements RetrieveSubTasksService {
 
     }
 
-    //Retrieve a specific subtask using Id
+    //Retrieve a specific subtask using id
     @Override
-    public ResponseSubTaskDto getSubTaskById(Integer id){
+    public ResponseSubTaskDto getSubTaskById(Long id){
         SubTask subTask = subTaskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sub Task not found with id: " + id));
         return subtaskUtil.convertToResponseSubTaskDto(subTask);
     }
-
 
 
 

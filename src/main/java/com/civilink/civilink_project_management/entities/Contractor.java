@@ -1,35 +1,40 @@
 package com.civilink.civilink_project_management.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Contractor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BIGINT")
+    private Long id;
+
     private String name;
     private String email;
     private String contact;
 
+    // One contractor can have multiple main tasks
+    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MainTask> mainTasks;
+
     public Contractor() {
     }
 
-    public Contractor(Integer id, String name, String email, String contact) {
-        this.Id = id;
-        this.name=name;
-        this.email=email;
-        this.contact=contact;
+    public Contractor(Long id, String name, String email, String contact, List<MainTask> mainTasks) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.contact = contact;
+        this.mainTasks = mainTasks;
     }
 
-    public Integer getId() {
-        return Id;
+    public Long getId() {
+        return id;
     }
 
-    public void setId(Integer id) {
-        Id = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -54,5 +59,13 @@ public class Contractor {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public List<MainTask> getMainTasks() {
+        return mainTasks;
+    }
+
+    public void setMainTasks(List<MainTask> mainTasks) {
+        this.mainTasks = mainTasks;
     }
 }

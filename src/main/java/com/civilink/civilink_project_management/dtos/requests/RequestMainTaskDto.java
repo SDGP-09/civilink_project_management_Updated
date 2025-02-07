@@ -1,6 +1,7 @@
 package com.civilink.civilink_project_management.dtos.requests;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public class RequestMainTaskDto {
 
@@ -9,11 +10,11 @@ public class RequestMainTaskDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    private List<Integer> subtaskIds;  // Reference to SubTask IDs
-    private Integer contractorId;     // Reference to Contractor ID
+    private List<Long> subtaskIds;  // Reference to SubTask IDs
+    private Long contractorId;     // Reference to Contractor ID
 
 
-    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description,List<Integer>subtaskIds,Integer contractorId) {
+    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description,List<Long>subtaskIds, Long contractorId) {
         this.taskname = taskname;
         this.status = status;
         this.startDate = startDate;
@@ -61,17 +62,17 @@ public class RequestMainTaskDto {
         this.description = description;
     }
 
-    public List<Integer> getSubtaskIds() {return subtaskIds;
+    public List<Long> getSubtaskIds() {return subtaskIds;
     }
 
-    public void setSubtaskIds(List<Integer> subtaskIds) {
+    public void setSubtaskIds(List<Long> subtaskIds) {
         this.subtaskIds = subtaskIds;
     }
 
-    public Integer getContractorId() {return contractorId;
+    public Long getContractorId() {return contractorId;
     }
 
-    public void setContractorId(Integer contractorId) {
+    public void setContractorId(Long contractorId) {
         this.contractorId = contractorId;
     }
 }

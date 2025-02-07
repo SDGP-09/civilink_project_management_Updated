@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+
 @RestController
 @RequestMapping("/api/sub-tasks")
 public class SubTaskControllers {
@@ -43,7 +44,7 @@ public class SubTaskControllers {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StandardResponse> getSubTaskById(@PathVariable Integer id) {
+    public ResponseEntity<StandardResponse> getSubTaskById(@PathVariable Long id) {
         ResponseSubTaskDto response = retrieveSubTasksService.getSubTaskById(id);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Subtask retrieved successfully", response),

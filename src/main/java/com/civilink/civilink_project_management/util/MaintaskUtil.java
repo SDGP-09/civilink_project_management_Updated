@@ -2,7 +2,6 @@ package com.civilink.civilink_project_management.util;
 
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
 import com.civilink.civilink_project_management.entities.MainTask;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;

@@ -3,11 +3,12 @@ package com.civilink.civilink_project_management.entities;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+
 @Entity
 public class SubTask {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String taskname;
     private String status;
     private LocalDate startDate;
@@ -22,11 +23,11 @@ public class SubTask {
     public SubTask() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

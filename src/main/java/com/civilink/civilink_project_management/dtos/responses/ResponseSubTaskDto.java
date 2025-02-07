@@ -1,26 +1,26 @@
 package com.civilink.civilink_project_management.dtos.responses;
 
-
 import java.time.LocalDate;
 
+
 public class ResponseSubTaskDto {
-    private Integer id;
+    private Long id;
     private String taskname;
     private String status;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    private Integer mainTaskId;  // Reference to the MainTask ID
+    private Long mainTaskId;  // Reference to the MainTask ID
 
 
     public ResponseSubTaskDto() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,11 +64,11 @@ public class ResponseSubTaskDto {
         this.description = description;
     }
 
-    public Integer getMainTaskId() {
+    public Long getMainTaskId() {
         return mainTaskId;
     }
 
-    public void setMainTaskId(Integer mainTaskId) {
+    public void setMainTaskId(Long mainTaskId) {
         this.mainTaskId = mainTaskId;
     }
 

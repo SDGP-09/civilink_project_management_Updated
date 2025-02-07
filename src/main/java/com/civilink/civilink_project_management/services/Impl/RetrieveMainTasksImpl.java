@@ -32,7 +32,7 @@ public class RetrieveMainTasksImpl implements RetrieveMainTasksService {
 
     //Retrieve a Specific Main task
     @Override
-    public ResponseMainTaskDto getMainTaskById(Integer id){
+    public ResponseMainTaskDto getMainTaskById(Long id){
         MainTask mainTask = mainTaskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Main Task not found with id: " + id));
         return maintaskUtil.convertToResponseMainTaskDto(mainTask);

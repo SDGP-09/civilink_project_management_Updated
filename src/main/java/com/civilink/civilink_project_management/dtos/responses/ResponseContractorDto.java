@@ -2,12 +2,12 @@ package com.civilink.civilink_project_management.dtos.responses;
 
 
 public class ResponseContractorDto {
-    private Integer id;
+    private Long id;
     private String name;
     private String email;
     private String contact;
 
-    public ResponseContractorDto(Integer id, String name, String email, String contact) {
+    public ResponseContractorDto(Long id, String name, String email, String contact) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -17,11 +17,11 @@ public class ResponseContractorDto {
     public ResponseContractorDto() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
