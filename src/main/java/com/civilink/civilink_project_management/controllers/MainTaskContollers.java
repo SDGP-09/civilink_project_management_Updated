@@ -3,6 +3,7 @@ package com.civilink.civilink_project_management.controllers;
 import com.civilink.civilink_project_management.dtos.requests.RequestMainTaskDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
 import com.civilink.civilink_project_management.services.CreateMainTaskService;
+import com.civilink.civilink_project_management.services.DeleteMainTaskService;
 import com.civilink.civilink_project_management.services.RetrieveMainTasksService;
 import com.civilink.civilink_project_management.services.UpdateMainTaskService;
 import com.civilink.civilink_project_management.util.StandardResponse;
@@ -19,11 +20,13 @@ public class MainTaskContollers {
     private final CreateMainTaskService createMainTaskService;
     private final RetrieveMainTasksService retrieveMainTasksService;
     private final UpdateMainTaskService updateMainTaskService;
+    private final DeleteMainTaskService deleteMainTaskService;
 
-    public MainTaskContollers(CreateMainTaskService createMainTaskService,RetrieveMainTasksService retrieveMainTasksService,UpdateMainTaskService updateMainTaskService) {
+    public MainTaskContollers(CreateMainTaskService createMainTaskService,RetrieveMainTasksService retrieveMainTasksService,UpdateMainTaskService updateMainTaskService,DeleteMainTaskService deleteMainTaskService) {
         this.createMainTaskService = createMainTaskService;
         this.retrieveMainTasksService = retrieveMainTasksService;
         this.updateMainTaskService = updateMainTaskService;
+        this.deleteMainTaskService = deleteMainTaskService;
     }
 
     @PostMapping("/create-main-task")
@@ -60,6 +63,24 @@ public class MainTaskContollers {
         ResponseMainTaskDto response = updateMainTaskService.updateMainTask(id, requestMainTaskDto);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Main task updated successfully", response),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<StandardResponse> deleteMainTask(@PathVariable Long id) {
+        deleteMainTaskService.deleteMainTask(id);
+        return new ResponseEntity<>(
+                new StandardResponse(200, "MainTask with ID " + id + " deleted successfully", null),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/delete-all")
+    public ResponseEntity<StandardResponse> deleteAllMainTasks() {
+        deleteMainTaskService.deleteAllMainTasks();
+        return new ResponseEntity<>(
+                new StandardResponse(200, "All MainTasks deleted successfully", null),
                 HttpStatus.OK
         );
     }
