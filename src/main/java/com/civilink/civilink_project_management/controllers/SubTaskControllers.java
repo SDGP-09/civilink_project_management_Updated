@@ -4,6 +4,7 @@ package com.civilink.civilink_project_management.controllers;
 import com.civilink.civilink_project_management.dtos.requests.RequestSubTaskDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseSubTaskDto;
 import com.civilink.civilink_project_management.services.CreateSubTaskService;
+import com.civilink.civilink_project_management.services.DeleteSubTaskService;
 import com.civilink.civilink_project_management.services.RetrieveSubTasksService;
 import com.civilink.civilink_project_management.services.UpdateSubTaskService;
 import com.civilink.civilink_project_management.util.StandardResponse;
@@ -22,11 +23,13 @@ public class SubTaskControllers {
     private final CreateSubTaskService createSubTaskService;
     private final RetrieveSubTasksService retrieveSubTasksService;
     private final UpdateSubTaskService updateSubTaskService;
+    private final DeleteSubTaskService deleteSubTaskService;
 
-    public SubTaskControllers(CreateSubTaskService createSubTaskService,RetrieveSubTasksService retrieveSubTasksService, UpdateSubTaskService updateSubTaskService) {
+    public SubTaskControllers(CreateSubTaskService createSubTaskService,RetrieveSubTasksService retrieveSubTasksService, UpdateSubTaskService updateSubTaskService, DeleteSubTaskService deleteSubTaskService) {
         this.createSubTaskService = createSubTaskService;
         this.retrieveSubTasksService = retrieveSubTasksService;
         this.updateSubTaskService = updateSubTaskService;
+        this.deleteSubTaskService = deleteSubTaskService;
     }
 
     @PostMapping("/create-subtask")
@@ -62,6 +65,25 @@ public class SubTaskControllers {
         ResponseSubTaskDto response = updateSubTaskService.updateSubTask(id, requestSubTaskDto);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Sub task updated successfully", response),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<StandardResponse> deleteSubTask(@PathVariable Long id) {
+        deleteSubTaskService.deleteSubTask(id);
+        return new ResponseEntity<>(
+                new StandardResponse(200, "Subtask deleted successfully", null),
+                HttpStatus.OK
+        );
+    }
+
+
+    @DeleteMapping("/delete-all/{mainTaskId}")
+    public ResponseEntity<StandardResponse> deleteAllSubTasks(@PathVariable Long mainTaskId) {
+        deleteSubTaskService.deleteAllSubTasks(mainTaskId);
+        return new ResponseEntity<>(
+                new StandardResponse(200, "All subtasks for the main task deleted successfully", null),
                 HttpStatus.OK
         );
     }
