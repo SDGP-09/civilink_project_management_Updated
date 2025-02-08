@@ -22,7 +22,12 @@ public interface SubTaskRepository extends JpaRepository<SubTask, Long> {
     // Delete all subtasks of a specific MainTask
     @Modifying
     @Query("DELETE FROM SubTask s WHERE s.mainTask.id = :mainTaskId")
-    void deleteAllSubTasksByMainTask(Long mainTaskId);
+    void deleteAllSubTasksBymaintask(Long mainTaskId);
+
+    @Modifying
+    @Query("DELETE FROM SubTask s")
+    void deleteAllSubTasks();
+
 
 
 

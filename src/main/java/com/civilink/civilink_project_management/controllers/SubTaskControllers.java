@@ -90,9 +90,18 @@ public class SubTaskControllers {
 
     @DeleteMapping("/delete-all/{mainTaskId}")
     public ResponseEntity<StandardResponse> deleteAllSubTasks(@PathVariable Long mainTaskId) {
-        deleteSubTaskService.deleteAllSubTasks(mainTaskId);
+        deleteSubTaskService.deleteAllSubTasksbyMaintask(mainTaskId);
         return new ResponseEntity<>(
                 new StandardResponse(200, "All subtasks for the main task deleted successfully", null),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/delete-all")
+    public ResponseEntity<StandardResponse> deleteAllSubTasks() {
+        deleteSubTaskService.deleteAllSubTasks();
+        return new ResponseEntity<>(
+                new StandardResponse(200, "All subtasks deleted successfully", null),
                 HttpStatus.OK
         );
     }
