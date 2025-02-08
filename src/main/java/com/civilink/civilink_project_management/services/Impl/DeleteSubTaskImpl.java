@@ -1,7 +1,6 @@
 package com.civilink.civilink_project_management.services.Impl;
 
-import com.civilink.civilink_project_management.entities.MainTask;
-import com.civilink.civilink_project_management.entities.SubTask;
+
 import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.repositories.SubTaskRepository;
@@ -29,26 +28,20 @@ public class DeleteSubTaskImpl implements DeleteSubTaskService {
     @Override
     @Transactional
     public void deleteSubTask(Long id) {
-        Optional<SubTask> subTask = subTaskRepository.findById(id);
-
-        if (subTask.isPresent()) {
-            subTaskRepository.deleteById(id);
-        } else {
+        if (!subTaskRepository.existsById(id)) {
             throw new RuntimeException("SubTask with ID " + id + " not found.");
         }
+        subTaskRepository.deleteSubTaskById(id);
     }
 
     // Delete all subtasks of a specific main task
     @Override
     @Transactional
     public void deleteAllSubTasks(Long mainTaskId) {
-        Optional<MainTask> mainTask = mainTaskRepository.findById(mainTaskId);
-
-        if (mainTask.isPresent()) {
-            subTaskRepository.deleteAllByMainTask(mainTask.get());
-        } else {
+        if (!mainTaskRepository.existsById(mainTaskId)) {
             throw new MainTaskNotFoundException("MainTask with ID " + mainTaskId + " not found.");
         }
+        subTaskRepository.deleteAllSubTasksByMainTask(mainTaskId);
     }
 }
 
