@@ -11,7 +11,7 @@ import com.civilink.civilink_project_management.util.ContractorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+
 
 @Service
 public class UpdateMainTaskImpl implements UpdateMainTaskService {
@@ -40,12 +40,25 @@ public class UpdateMainTaskImpl implements UpdateMainTaskService {
             existingTask.setContractor(contractor);
         }
 
+
+
         // Update fields
-        Optional.ofNullable(requestMainTaskDto.getTaskname()).ifPresent(existingTask::setTaskname);
-        Optional.ofNullable(requestMainTaskDto.getStatus()).ifPresent(existingTask::setStatus);
-        Optional.ofNullable(requestMainTaskDto.getStartDate()).ifPresent(existingTask::setStartDate);
-        Optional.ofNullable(requestMainTaskDto.getEndDate()).ifPresent(existingTask::setEndDate);
-        Optional.ofNullable(requestMainTaskDto.getDescription()).ifPresent(existingTask::setDescription);
+        if (requestMainTaskDto.getTaskname() != null) {
+            existingTask.setTaskname(requestMainTaskDto.getTaskname());
+        }
+        if (requestMainTaskDto.getStatus() != null) {
+            existingTask.setStatus(requestMainTaskDto.getStatus());
+        }
+        if (requestMainTaskDto.getStartDate() != null) {
+            existingTask.setStartDate(requestMainTaskDto.getStartDate());
+        }
+        if (requestMainTaskDto.getEndDate() != null) {
+            existingTask.setEndDate(requestMainTaskDto.getEndDate());
+        }
+        if (requestMainTaskDto.getDescription() != null) {
+            existingTask.setDescription(requestMainTaskDto.getDescription());
+        }
+
 
         // Save the updated task
         MainTask updatedTask = mainTaskRepository.save(existingTask);
