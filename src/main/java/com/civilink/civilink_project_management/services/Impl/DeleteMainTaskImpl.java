@@ -1,6 +1,7 @@
 package com.civilink.civilink_project_management.services.Impl;
 
 import com.civilink.civilink_project_management.entities.MainTask;
+import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.DeleteMainTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class DeleteMainTaskImpl implements DeleteMainTaskService {
         if (mainTask.isPresent()) {
             mainTaskRepository.deleteById(id);
         } else {
-            throw new RuntimeException("MainTask with ID " + id + " not found.");
+            throw new MainTaskNotFoundException("MainTask with ID " + id + " not found.");
         }
     }
 
