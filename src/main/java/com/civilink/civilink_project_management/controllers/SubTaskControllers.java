@@ -17,7 +17,8 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/sub-tasks")
+@RequestMapping("/api/" +
+        "")
 public class SubTaskControllers {
 
     private final CreateSubTaskService createSubTaskService;
