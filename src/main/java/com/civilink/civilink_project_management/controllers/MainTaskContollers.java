@@ -9,6 +9,7 @@ import com.civilink.civilink_project_management.services.UpdateMainTaskService;
 import com.civilink.civilink_project_management.util.StandardResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class MainTaskContollers {
     }
 
     @PostMapping("/create-main-task")
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto) {
         ResponseMainTaskDto response = createMainTaskService.createMainTask(requestMainTaskDto);
         return new ResponseEntity<>(
