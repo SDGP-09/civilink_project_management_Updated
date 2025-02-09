@@ -4,6 +4,8 @@ import com.civilink.civilink_project_management.dtos.requests.RequestSubTaskDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseSubTaskDto;
 import com.civilink.civilink_project_management.entities.MainTask;
 import com.civilink.civilink_project_management.entities.SubTask;
+import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
+import com.civilink.civilink_project_management.exception.SubTaskNotFoundException;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.repositories.SubTaskRepository;
 import com.civilink.civilink_project_management.services.UpdateSubTaskService;
@@ -29,13 +31,17 @@ public class UpdateSubTaskImpl implements UpdateSubTaskService {
     public ResponseSubTaskDto updateSubTask(Long subTaskId, RequestSubTaskDto requestSubTaskDto) {
 
         // Fetch the existing SubTask
-        SubTask existingsubTask = subTaskRepository.findById(subTaskId)
-                .orElseThrow(() -> new RuntimeException("Subtask not found with id: " + subTaskId));
+        SubTask existingsubTask = subTaskRepository.findById(subTaskId).orElse(null);
+        if(existingsubTask == null) {
+            throw new SubTaskNotFoundException("Subtask not found with id: " + subTaskId);
+        }
 
         //fetch and set the MainTask
         if (requestSubTaskDto.getMainTaskId() != null) {
-            MainTask mainTask = mainTaskRepository.findById(requestSubTaskDto.getMainTaskId())
-                    .orElseThrow(() -> new RuntimeException("Main task not found with id: " + requestSubTaskDto.getMainTaskId()));
+            MainTask mainTask = mainTaskRepository.findById(requestSubTaskDto.getMainTaskId()).orElse(null);
+            if(mainTask == null){
+                throw new MainTaskNotFoundException("Main task not found with id: " + requestSubTaskDto.getMainTaskId());
+            }
             existingsubTask.setMainTask(mainTask);
         }
 

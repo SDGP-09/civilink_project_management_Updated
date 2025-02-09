@@ -4,6 +4,7 @@ import com.civilink.civilink_project_management.dtos.requests.RequestSubTaskDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseSubTaskDto;
 import com.civilink.civilink_project_management.entities.MainTask;
 import com.civilink.civilink_project_management.entities.SubTask;
+import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.repositories.SubTaskRepository;
 import com.civilink.civilink_project_management.services.CreateSubTaskService;
@@ -32,8 +33,10 @@ public class CreateSubTaskImpl implements CreateSubTaskService {
     public ResponseSubTaskDto createSubTask(RequestSubTaskDto requestSubTaskDto) {
 
         // Fetch the main task
-        MainTask mainTask = mainTaskRepository.findById(requestSubTaskDto.getMainTaskId())
-                .orElseThrow(() -> new RuntimeException("Main task not found"));
+        MainTask mainTask = mainTaskRepository.findById(requestSubTaskDto.getMainTaskId()).orElse(null);
+        if(mainTask == null){
+            throw new MainTaskNotFoundException("This Main task id not found");
+        }
 
 
 

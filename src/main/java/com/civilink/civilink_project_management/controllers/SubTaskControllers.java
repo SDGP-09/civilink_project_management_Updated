@@ -60,6 +60,15 @@ public class SubTaskControllers {
         );
     }
 
+    @GetMapping("/main-task/{id}")
+    public ResponseEntity<StandardResponse> getSubTasksByMainTaskId(@PathVariable Long id) {
+        List<ResponseSubTaskDto> response = retrieveSubTasksService.getSubTasksByMainTaskId(id);
+        return new ResponseEntity<>(
+                new StandardResponse(200, "Subtasks for the specified main task retrieved successfully", response),
+                HttpStatus.OK
+        );
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<StandardResponse> updateSubTask(@PathVariable Long id,
                                                            @RequestBody RequestSubTaskDto requestSubTaskDto) {

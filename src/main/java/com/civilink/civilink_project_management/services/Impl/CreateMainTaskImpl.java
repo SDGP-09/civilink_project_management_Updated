@@ -4,6 +4,7 @@ import com.civilink.civilink_project_management.dtos.requests.RequestMainTaskDto
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
 import com.civilink.civilink_project_management.entities.Contractor;
 import com.civilink.civilink_project_management.entities.MainTask;
+import com.civilink.civilink_project_management.exception.ContractorNotFoundException;
 import com.civilink.civilink_project_management.repositories.ContractorRepository;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.CreateMainTaskService;
@@ -33,8 +34,10 @@ public class CreateMainTaskImpl implements CreateMainTaskService {
     public ResponseMainTaskDto createMainTask(RequestMainTaskDto requestMainTaskDto) {
 
         // Retrieve Contractor
-        Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId())
-                .orElseThrow(() -> new RuntimeException("Contractor not found with id: " + requestMainTaskDto.getContractorId()));
+        Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
+        if (contractor == null){
+            throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
+        }
 
 
         //create main task

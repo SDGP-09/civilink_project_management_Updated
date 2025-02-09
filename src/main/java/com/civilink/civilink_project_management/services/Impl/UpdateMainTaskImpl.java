@@ -4,6 +4,8 @@ import com.civilink.civilink_project_management.dtos.requests.RequestMainTaskDto
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
 import com.civilink.civilink_project_management.entities.Contractor;
 import com.civilink.civilink_project_management.entities.MainTask;
+import com.civilink.civilink_project_management.exception.ContractorNotFoundException;
+import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
 import com.civilink.civilink_project_management.repositories.ContractorRepository;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.UpdateMainTaskService;
@@ -30,13 +32,18 @@ public class UpdateMainTaskImpl implements UpdateMainTaskService {
     public ResponseMainTaskDto updateMainTask(Long taskId, RequestMainTaskDto requestMainTaskDto) {
 
         // Retrieve the existing main task
-        MainTask existingTask = mainTaskRepository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException("Main Task not found with id: " + taskId));
+        MainTask existingTask = mainTaskRepository.findById(taskId).orElse(null);
+        if(existingTask == null){
+             throw new MainTaskNotFoundException("Main Task not found with id: " + taskId);
+        }
+
 
         // Check if contractor needs to be updated
         if (requestMainTaskDto.getContractorId() != null) {
-            Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId())
-                    .orElseThrow(() -> new RuntimeException("Contractor not found with id: " + requestMainTaskDto.getContractorId()));
+            Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
+            if(contractor == null) {
+                throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
+            }
             existingTask.setContractor(contractor);
         }
 

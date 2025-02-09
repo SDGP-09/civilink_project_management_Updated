@@ -2,6 +2,7 @@ package com.civilink.civilink_project_management.services.Impl;
 
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
 import com.civilink.civilink_project_management.entities.MainTask;
+import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.RetrieveMainTasksService;
 import com.civilink.civilink_project_management.util.MaintaskUtil;
@@ -33,8 +34,10 @@ public class RetrieveMainTasksImpl implements RetrieveMainTasksService {
     //Retrieve a Specific Main task
     @Override
     public ResponseMainTaskDto getMainTaskById(Long id){
-        MainTask mainTask = mainTaskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Main Task not found with id: " + id));
+        MainTask mainTask = mainTaskRepository.findById(id).orElse(null);
+        if(mainTask == null){
+            throw new MainTaskNotFoundException("Main Task not found with id: " + id);
+        }
         return maintaskUtil.convertToResponseMainTaskDto(mainTask);
     }
 
