@@ -11,12 +11,14 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 
+
+@Service
 public class DeleteSubTaskImpl implements DeleteSubTaskService {
 
     private final SubTaskRepository subTaskRepository;
@@ -49,6 +51,7 @@ public class DeleteSubTaskImpl implements DeleteSubTaskService {
     // Delete all subtasks of a specific main task
     @Override
     @Transactional
+
     public void deleteAllSubTasks(Long mainTaskId) {
 
 
@@ -57,6 +60,20 @@ public class DeleteSubTaskImpl implements DeleteSubTaskService {
         } else {
             throw new RuntimeException("MainTask with ID " + mainTaskId + " not found.");
         }
+
+    public void deleteAllSubTasksbyMaintask(Long mainTaskId) {
+        if (!mainTaskRepository.existsById(mainTaskId)) {
+            throw new MainTaskNotFoundException("MainTask with ID " + mainTaskId + " not found.");
+        }
+        subTaskRepository.deleteAllSubTasksBymaintask(mainTaskId);
     }
+
+    // Delete all subtasks in all main tasks
+    @Override
+    @Transactional
+    public void deleteAllSubTasks() {
+        subTaskRepository.deleteAllSubTasks();
+    }
+
 }
 
