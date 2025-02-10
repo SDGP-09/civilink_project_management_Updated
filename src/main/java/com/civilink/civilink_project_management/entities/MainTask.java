@@ -18,6 +18,30 @@ public class MainTask {
     private LocalDate endDate;
     private String description;
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    @Column(nullable = false)
+    private String groupId;
+
+
+    public MainTask(Long id, String taskname, String status, LocalDate startDate, LocalDate endDate, String description, String groupId, List<SubTask> subtasks, Contractor contractor) {
+        this.id = id;
+        this.taskname = taskname;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.groupId = groupId;
+        this.subtasks = subtasks;
+        this.contractor = contractor;
+    }
+
     @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<SubTask> subtasks;
 
