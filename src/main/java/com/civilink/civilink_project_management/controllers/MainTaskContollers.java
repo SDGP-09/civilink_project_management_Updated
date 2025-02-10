@@ -9,12 +9,17 @@ import com.civilink.civilink_project_management.services.UpdateMainTaskService;
 import com.civilink.civilink_project_management.util.StandardResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api/main-tasks")
+@RequestMapping("/api/v1/main")
 
 public class MainTaskContollers {
     private final CreateMainTaskService createMainTaskService;
@@ -30,8 +35,19 @@ public class MainTaskContollers {
     }
 
     @PostMapping("/create-main-task")
-    public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto) {
-        ResponseMainTaskDto response = createMainTaskService.createMainTask(requestMainTaskDto);
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto, Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("groups");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+        ResponseMainTaskDto response = createMainTaskService.createMainTask(requestMainTaskDto,userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(201, "Main task created successfully", response),
                 HttpStatus.CREATED

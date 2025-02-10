@@ -10,6 +10,7 @@ import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.CreateMainTaskService;
 import com.civilink.civilink_project_management.util.ContractorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 
@@ -31,7 +32,7 @@ public class CreateMainTaskImpl implements CreateMainTaskService {
     }
 
     @Override
-    public ResponseMainTaskDto createMainTask(RequestMainTaskDto requestMainTaskDto) {
+    public ResponseMainTaskDto createMainTask(RequestMainTaskDto requestMainTaskDto, String groupId) {
 
         // Retrieve Contractor
         Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
@@ -48,6 +49,7 @@ public class CreateMainTaskImpl implements CreateMainTaskService {
         mainTask.setEndDate(requestMainTaskDto.getEndDate());
         mainTask.setDescription(requestMainTaskDto.getDescription());
         mainTask.setContractor(contractor);
+        mainTask.setGroupId(groupId);
 
         // Save to the database
         MainTask savedmainTask = mainTaskRepository.save(mainTask);
