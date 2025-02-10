@@ -1,6 +1,7 @@
 package com.civilink.civilink_project_management.config;
 
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 @Configuration
 public class JwtAuthConverterConfig {
 
+
+    @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter defaultConverter = new JwtGrantedAuthoritiesConverter();
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();

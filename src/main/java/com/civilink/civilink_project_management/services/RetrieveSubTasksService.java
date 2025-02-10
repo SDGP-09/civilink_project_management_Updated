@@ -7,5 +7,5 @@ import java.util.List;
 public interface RetrieveSubTasksService {
     List<ResponseSubTaskDto> getAllSubTasks();
     ResponseSubTaskDto getSubTaskById(Long id);
-    List<ResponseSubTaskDto> getSubTasksByMainTaskId(Long id);
+//    List<ResponseSubTaskDto> getSubTasksByMainTaskId(Long id);
 }

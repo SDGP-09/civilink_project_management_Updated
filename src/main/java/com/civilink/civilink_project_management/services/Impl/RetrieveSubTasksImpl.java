@@ -48,17 +48,17 @@ public class RetrieveSubTasksImpl implements RetrieveSubTasksService {
     }
 
     // Retrieve subtasks for a specific main task
-    @Override
-    public List<ResponseSubTaskDto> getSubTasksByMainTaskId(Long id) {
-        MainTask mainTask = mainTaskRepository.findById(id).orElse(null);
-        if(mainTask == null){
-            throw new MainTaskNotFoundException("Main Task not found with id: " + id);
-        }
-        List<SubTask> subTasks = subTaskRepository.findByMainTaskId(id);
-        return subTasks.stream()
-                .map(subtaskUtil::convertToResponseSubTaskDto)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<ResponseSubTaskDto> getSubTasksByMainTaskId(Long id) {
+//        MainTask mainTask = mainTaskRepository.findById(id).orElse(null);
+//        if(mainTask == null){
+//            throw new MainTaskNotFoundException("Main Task not found with id: " + id);
+//        }
+//        List<SubTask> subTasks = subTaskRepository.findByMainTaskId(id);
+//        return subTasks.stream()
+//                .map(subtaskUtil::convertToResponseSubTaskDto)
+//                .collect(Collectors.toList());
+//    }
 
 
 

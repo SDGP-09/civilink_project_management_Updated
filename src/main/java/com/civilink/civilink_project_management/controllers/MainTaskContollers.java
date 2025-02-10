@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api/main-tasks")
+@RequestMapping("/api/v1/main")
 
 public class MainTaskContollers {
     private final CreateMainTaskService createMainTaskService;
