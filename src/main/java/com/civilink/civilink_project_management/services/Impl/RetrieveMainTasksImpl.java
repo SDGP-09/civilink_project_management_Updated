@@ -26,8 +26,8 @@ public class RetrieveMainTasksImpl implements RetrieveMainTasksService {
 
     //Rerieve All Main tasks
     @Override
-    public List<ResponseMainTaskDto> getAllMainTasks(){
-        List<MainTask> mainTasks = mainTaskRepository.findAll();
+    public List<ResponseMainTaskDto> getAllMainTasks(String group){
+        List<MainTask> mainTasks = mainTaskRepository.findAllByGroupId(group);
         return mainTasks.stream().map(maintaskUtil::convertToResponseMainTaskDto).collect(Collectors.toList());
     }
 
