@@ -35,7 +35,7 @@ public class MainTaskContollers {
     }
 
     @PostMapping("/create-main-task")
-    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_HOST') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto, Authentication authentication) {
 
         Jwt jwt = (Jwt) authentication.getPrincipal();
@@ -54,9 +54,19 @@ public class MainTaskContollers {
         );
     }
 
-    @GetMapping("/getall")
-    public ResponseEntity<StandardResponse> getAllMainTasks() {
-        List<ResponseMainTaskDto> response = retrieveMainTasksService.getAllMainTasks();
+    @GetMapping("/get-all")
+    public ResponseEntity<StandardResponse> getAllMainTasks(Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("groups");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+        List<ResponseMainTaskDto> response = retrieveMainTasksService.getAllMainTasks(userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(200, "All main tasks retrieved successfully", response),
                 HttpStatus.OK

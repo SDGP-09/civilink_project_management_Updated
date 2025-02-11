@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -23,16 +24,31 @@ public class JwtAuthConverterConfig {
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
             Collection<GrantedAuthority> authorities = defaultConverter.convert(jwt);
 
-            List<String> groups = jwt.getClaimAsStringList("groups");
 
-            if (groups != null) {
-                List<GrantedAuthority> groupAuthorities = groups.stream()
-                        .map(group -> (GrantedAuthority) () -> "ROLE_" + group.toUpperCase()).collect(Collectors.toList());
-                authorities.addAll(groupAuthorities);
+            Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+            System.out.println("Realm Access: " + realmAccess);
+
+            if (realmAccess != null && realmAccess.containsKey("roles")) {
+                Object rolesObj = realmAccess.get("roles");
+
+                if (rolesObj instanceof List) {
+                    List<String> roles = (List<String>) rolesObj;
+                    System.out.println("Extracted Roles: " + roles);
+
+                    List<GrantedAuthority> roleAuthorities = roles.stream()
+                            .map(role -> (GrantedAuthority) () -> "ROLE_" + role.toUpperCase())
+                            .collect(Collectors.toList());
+                    authorities.addAll(roleAuthorities);
+                } else {
+                    System.out.println("Roles is not a List: " + rolesObj);
+                }
+            } else {
+                System.out.println("No roles found in realm_access.");
             }
+
             return authorities;
         });
-        return converter;
 
+        return converter;
     }
 }

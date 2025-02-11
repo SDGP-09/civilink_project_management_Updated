@@ -5,6 +5,6 @@ import java.util.List;
 
 
 public interface RetrieveMainTasksService {
-     List<ResponseMainTaskDto> getAllMainTasks();
+     List<ResponseMainTaskDto> getAllMainTasks(String group);
      ResponseMainTaskDto getMainTaskById(Long id);
 }
