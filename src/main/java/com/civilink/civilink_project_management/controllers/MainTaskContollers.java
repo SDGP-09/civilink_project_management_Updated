@@ -2,10 +2,7 @@ package com.civilink.civilink_project_management.controllers;
 
 import com.civilink.civilink_project_management.dtos.requests.RequestMainTaskDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
-import com.civilink.civilink_project_management.services.CreateMainTaskService;
-import com.civilink.civilink_project_management.services.DeleteMainTaskService;
-import com.civilink.civilink_project_management.services.RetrieveMainTasksService;
-import com.civilink.civilink_project_management.services.UpdateMainTaskService;
+import com.civilink.civilink_project_management.services.*;
 import com.civilink.civilink_project_management.util.StandardResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +19,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/main")
 
 public class MainTaskContollers {
-    private final CreateMainTaskService createMainTaskService;
-    private final RetrieveMainTasksService retrieveMainTasksService;
-    private final UpdateMainTaskService updateMainTaskService;
-    private final DeleteMainTaskService deleteMainTaskService;
+    private final MainTaskService mainTaskService;
 
-    public MainTaskContollers(CreateMainTaskService createMainTaskService,RetrieveMainTasksService retrieveMainTasksService,UpdateMainTaskService updateMainTaskService,DeleteMainTaskService deleteMainTaskService) {
-        this.createMainTaskService = createMainTaskService;
-        this.retrieveMainTasksService = retrieveMainTasksService;
-        this.updateMainTaskService = updateMainTaskService;
-        this.deleteMainTaskService = deleteMainTaskService;
+    public MainTaskContollers(MainTaskService mainTaskService) {
+        this.mainTaskService = mainTaskService;
     }
+
 
     @PostMapping("/create-main-task")
     @PreAuthorize("hasRole('ROLE_HOST') or hasRole('ROLE_ADMIN')")
@@ -47,7 +39,7 @@ public class MainTaskContollers {
 
         String userGroup = groups.get(0);
 
-        ResponseMainTaskDto response = createMainTaskService.createMainTask(requestMainTaskDto,userGroup);
+        ResponseMainTaskDto response = mainTaskService.createMainTask(requestMainTaskDto,userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(201, "Main task created successfully", response),
                 HttpStatus.CREATED
@@ -66,7 +58,7 @@ public class MainTaskContollers {
 
         String userGroup = groups.get(0);
 
-        List<ResponseMainTaskDto> response = retrieveMainTasksService.getAllMainTasks(userGroup);
+        List<ResponseMainTaskDto> response =  mainTaskService.getAllMainTasks(userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(200, "All main tasks retrieved successfully", response),
                 HttpStatus.OK
@@ -74,8 +66,18 @@ public class MainTaskContollers {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StandardResponse> getMainTaskById(@PathVariable Long id) {
-        ResponseMainTaskDto response = retrieveMainTasksService.getMainTaskById(id);
+    public ResponseEntity<StandardResponse> getMainTaskById(@PathVariable Long id, Authentication authentication) {
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("groups");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+
+        ResponseMainTaskDto response = mainTaskService.getMainTaskById(id,userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Main task retrieved successfully", response),
                 HttpStatus.OK
@@ -85,17 +87,40 @@ public class MainTaskContollers {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<StandardResponse> updateMainTask(@PathVariable Long id,
-                                                           @RequestBody RequestMainTaskDto requestMainTaskDto) {
-        ResponseMainTaskDto response = updateMainTaskService.updateMainTask(id, requestMainTaskDto);
+                                                           @RequestBody RequestMainTaskDto requestMainTaskDto,Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("groups");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+        ResponseMainTaskDto response = mainTaskService.updateMainTask(id, requestMainTaskDto,userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Main task updated successfully", response),
                 HttpStatus.OK
         );
     }
 
+
+
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<StandardResponse> deleteMainTask(@PathVariable Long id) {
-        deleteMainTaskService.deleteMainTask(id);
+    public ResponseEntity<StandardResponse> deleteMainTask(@PathVariable Long id, Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("groups");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+        mainTaskService.deleteMainTask(id,userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(200, "MainTask with ID " + id + " deleted successfully", null),
                 HttpStatus.OK
@@ -103,8 +128,18 @@ public class MainTaskContollers {
     }
 
     @DeleteMapping("/delete-all")
-    public ResponseEntity<StandardResponse> deleteAllMainTasks() {
-        deleteMainTaskService.deleteAllMainTasks();
+    public ResponseEntity<StandardResponse> deleteAllMainTasks(Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("groups");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+        mainTaskService.deleteAllMainTasks(userGroup);
         return new ResponseEntity<>(
                 new StandardResponse(200, "All MainTasks deleted successfully", null),
                 HttpStatus.OK
