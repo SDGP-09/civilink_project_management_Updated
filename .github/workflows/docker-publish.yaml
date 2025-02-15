@@ -13,22 +13,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#      - name: checkout repository
-#        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Log in to Docker hub
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{secrets.DOCKER_USERNAME}}
-          password: ${{secrets.DOCKER_PASSWORD}}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
         run: |
-          docker build -t lasithdev/civilink_project_management_api:${{github.sha}} .
-          docker tag lasithdev/civilink_project_management_api:${{github.sha}} lasithdev/civilink_project_management_api:latest
+          docker build -t lasithdev/civilink_project_management_api:${{ github.sha }} .
+          docker tag lasithdev/civilink_project_management_api:${{ github.sha }} lasithdev/civilink_project_management_api:latest
 
-      - name: Push Docker Image to Docker hub
+      - name: Push Docker Image to Docker Hub
         run: |
+          docker push lasithdev/civilink_project_management_api:${{ github.sha }}
           docker push lasithdev/civilink_project_management_api:latest
 
       - name: Authenticate with Google Cloud
@@ -47,7 +48,8 @@ jobs:
       - name: Configure kubectl
         run: |
           gcloud container clusters get-credentials civilink-cluster --zone us-central1-c --project ${{ secrets.GCP_PROJECT }}
+
       - name: Update GKE Deployment
         run: |
-          kubectl set image deployment/civilink_project_management civilink_project_management=lasithdev/project_management_api:latest -n development
+          kubectl set image deployment/civilink_project_management civilink_project_management=lasithdev/civilink_project_management_api:latest -n development
           kubectl rollout restart deployment civilink_project_management -n development
