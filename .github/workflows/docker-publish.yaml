@@ -51,5 +51,5 @@ jobs:
 
       - name: Update GKE Deployment
         run: |
-          kubectl set image deployment/civilink_project_management civilink_project_management=lasithdev/civilink_project_management_api:latest -n development
-          kubectl rollout restart deployment civilink_project_management -n development
+          kubectl set image deployment/civilink-project-management civilink-project-management=lasithdev/civilink_project_management_api:latest -n development
+          kubectl rollout restart deployment civilink-project-management -n development
