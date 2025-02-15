@@ -1,6 +1,5 @@
 package com.civilink.civilink_project_management.util;
 
-import org.springframework.stereotype.Component;
 
 public class StandardResponse {
     private int Code;
