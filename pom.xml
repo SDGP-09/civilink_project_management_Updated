@@ -108,6 +108,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>civilink_project_management</finalName>
 	</build>
 
 </project>
