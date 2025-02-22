@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t lasithdev/civilink_project_management_api:${{ github.sha }} .
+          docker build --no-cache -t lasithdev/civilink_project_management_api:${{ github.sha }} .
           docker tag lasithdev/civilink_project_management_api:${{ github.sha }} lasithdev/civilink_project_management_api:latest
 
       - name: Push Docker Image to Docker Hub
