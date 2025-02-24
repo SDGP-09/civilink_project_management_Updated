@@ -37,10 +37,10 @@ public class MainTaskServiceImpl implements MainTaskService {
     public ResponseMainTaskDto createMainTask(RequestMainTaskDto requestMainTaskDto, String groupId) {
 
         // Retrieve Contractor
-        Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
-        if (contractor == null){
-            throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
-        }
+//        Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
+//        if (contractor == null){
+//            throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
+//        }
 
         //create main task
         MainTask mainTask = new MainTask();
