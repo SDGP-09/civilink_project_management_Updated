@@ -28,15 +28,20 @@ public class MainTaskContollers {
 
 
     @PostMapping("/create-main-task")
-    @PreAuthorize("hasRole('ROLE_GENARAL_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_GENARAL_USER') or hasRole('ROLE_GROUP_M1')")
     public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto, Authentication authentication) {
 
         Jwt jwt = (Jwt) authentication.getPrincipal();
         List<String> groups = jwt.getClaimAsStringList("group");
 
-        if (groups == null || groups.isEmpty()) {
-            throw new RuntimeException("User does not belong to any group.");
+        if (groups != null){
+            for(String a : groups){
+                System.out.println(a);
+            }
+        }else{
+            System.out.println("Roles null");
         }
+
 
         String userGroup = groups.get(0);
 
