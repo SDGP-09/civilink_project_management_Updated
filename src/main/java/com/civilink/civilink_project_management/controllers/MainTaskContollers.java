@@ -28,7 +28,7 @@ public class MainTaskContollers {
 
 
     @PostMapping("/create-main-task")
-    @PreAuthorize("hasRole('ROLE_GENERAL_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_GENARAL_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto, Authentication authentication) {
 
         Jwt jwt = (Jwt) authentication.getPrincipal();
