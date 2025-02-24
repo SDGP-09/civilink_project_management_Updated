@@ -10,17 +10,17 @@ public class RequestMainTaskDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    private List<Long> subtaskIds;  // Reference to SubTask IDs
+    //private List<Long> subtaskIds;  // Reference to SubTask IDs
     private Long contractorId;     // Reference to Contractor ID
 
 
-    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description,List<Long>subtaskIds, Long contractorId) {
+    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description, Long contractorId) {
         this.taskname = taskname;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
-        this.subtaskIds = subtaskIds;
+       // this.subtaskIds = subtaskIds;
         this.contractorId = contractorId;
     }
 
@@ -62,12 +62,12 @@ public class RequestMainTaskDto {
         this.description = description;
     }
 
-    public List<Long> getSubtaskIds() {return subtaskIds;
-    }
+    //public List<Long> getSubtaskIds() {return subtaskIds;
+    //}
 
-    public void setSubtaskIds(List<Long> subtaskIds) {
-        this.subtaskIds = subtaskIds;
-    }
+    //public void setSubtaskIds(List<Long> subtaskIds) {
+       // this.subtaskIds = subtaskIds;
+    //}
 
     public Long getContractorId() {return contractorId;
     }
