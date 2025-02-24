@@ -49,7 +49,7 @@ public class MainTaskServiceImpl implements MainTaskService {
         mainTask.setStartDate(requestMainTaskDto.getStartDate());
         mainTask.setEndDate(requestMainTaskDto.getEndDate());
         mainTask.setDescription(requestMainTaskDto.getDescription());
-        mainTask.setContractor(contractor);
+//        mainTask.setContractor(contractor);
         mainTask.setGroupId(groupId);
 
         // Save to the database
@@ -63,7 +63,7 @@ public class MainTaskServiceImpl implements MainTaskService {
         responseMainTaskDto.setStartDate(savedmainTask.getStartDate());
         responseMainTaskDto.setEndDate(savedmainTask.getEndDate());
         responseMainTaskDto.setDescription(savedmainTask.getDescription());
-        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(mainTask.getContractor()));
+//        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(mainTask.getContractor()));
         return responseMainTaskDto;
     }
 
@@ -109,7 +109,7 @@ public class MainTaskServiceImpl implements MainTaskService {
             if(contractor == null) {
                 throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
             }
-            existingTask.setContractor(contractor);
+//            existingTask.setContractor(contractor);
         }
 
         // Update fields
@@ -140,7 +140,7 @@ public class MainTaskServiceImpl implements MainTaskService {
         responseMainTaskDto.setStartDate(updatedTask.getStartDate());
         responseMainTaskDto.setEndDate(updatedTask.getEndDate());
         responseMainTaskDto.setDescription(updatedTask.getDescription());
-        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(updatedTask.getContractor()));
+//        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(updatedTask.getContractor()));
 
         return responseMainTaskDto;
     }
