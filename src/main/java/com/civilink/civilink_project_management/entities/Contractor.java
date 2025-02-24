@@ -15,8 +15,8 @@ public class Contractor {
     private String contact;
 
     // One contractor can have multiple main tasks
-    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MainTask> mainTasks;
+//    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<MainTask> mainTasks;
 
     public Contractor() {
     }
@@ -26,7 +26,7 @@ public class Contractor {
         this.name = name;
         this.email = email;
         this.contact = contact;
-        this.mainTasks = mainTasks;
+
     }
 
     public Long getId() {
@@ -61,11 +61,11 @@ public class Contractor {
         this.contact = contact;
     }
 
-    public List<MainTask> getMainTasks() {
-        return mainTasks;
-    }
-
-    public void setMainTasks(List<MainTask> mainTasks) {
-        this.mainTasks = mainTasks;
-    }
+//    public List<MainTask> getMainTasks() {
+//        return mainTasks;
+//    }
+//
+//    public void setMainTasks(List<MainTask> mainTasks) {
+//        this.mainTasks = mainTasks;
+//    }
 }

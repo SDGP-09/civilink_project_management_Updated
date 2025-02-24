@@ -42,6 +42,8 @@ public class MainTaskServiceImpl implements MainTaskService {
 //            throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
 //        }
 
+        System.out.println(requestMainTaskDto.toString());
+
         //create main task
         MainTask mainTask = new MainTask();
         mainTask.setTaskname(requestMainTaskDto.getTaskname());
