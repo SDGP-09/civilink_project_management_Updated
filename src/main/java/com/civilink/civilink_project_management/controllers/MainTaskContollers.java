@@ -51,7 +51,11 @@ public class MainTaskContollers {
     public ResponseEntity<StandardResponse> getAllMainTasks(Authentication authentication) {
 
         Jwt jwt = (Jwt) authentication.getPrincipal();
-        List<String> groups = jwt.getClaimAsStringList("groups");
+        List<String> groups = jwt.getClaimAsStringList("group");
+
+        for(String a : groups){
+            System.out.println(a);
+        }
 
         if (groups == null || groups.isEmpty()) {
             throw new RuntimeException("User does not belong to any group.");
