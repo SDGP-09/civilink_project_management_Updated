@@ -39,7 +39,7 @@ public class MainTask {
         this.description = description;
         this.groupId = groupId;
         this.subtasks = subtasks;
-        this.contractor = contractor;
+//        this.contractor = contractor;
     }
 
     @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
@@ -47,9 +47,9 @@ public class MainTask {
 
 
     // Many tasks belong to one contractor
-    @ManyToOne
-    @JoinColumn(name = "contractor_id", nullable = false)
-    private Contractor contractor;
+//    @ManyToOne
+//    @JoinColumn(name = "contractor_id", nullable = false)
+//    private Contractor contractor;
 
 
     public MainTask() {
@@ -111,11 +111,11 @@ public class MainTask {
         this.subtasks = subtasks;
     }
 
-    public Contractor getContractor() {
-        return contractor;
-    }
-
-    public void setContractor(Contractor contractor) {
-        this.contractor = contractor;
-    }
+//    public Contractor getContractor() {
+//        return contractor;
+//    }
+//
+//    public void setContractor(Contractor contractor) {
+//        this.contractor = contractor;
+//    }
 }
