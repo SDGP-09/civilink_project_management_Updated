@@ -104,13 +104,13 @@ public class MainTaskServiceImpl implements MainTaskService {
         }
 
         // Check if contractor needs to be updated
-        if (requestMainTaskDto.getContractorId() != null) {
-            Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
-            if(contractor == null) {
-                throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
-            }
-//            existingTask.setContractor(contractor);
-        }
+//        if (requestMainTaskDto.getContractorId() != null) {
+//            Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
+//            if(contractor == null) {
+//                throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
+//            }
+////            existingTask.setContractor(contractor);
+//        }
 
         // Update fields
         if (requestMainTaskDto.getTaskname() != null) {
