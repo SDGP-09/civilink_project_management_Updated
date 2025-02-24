@@ -27,7 +27,7 @@ public class MaintaskUtil {
         responseMainTaskDto.setStartDate(mainTask.getStartDate());
         responseMainTaskDto.setEndDate(mainTask.getEndDate());
         responseMainTaskDto.setDescription(mainTask.getDescription());
-        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(mainTask.getContractor()));
+
 
         responseMainTaskDto.setSubtasks(mainTask.getSubtasks().stream()
                 .map(subtask -> subtaskUtil.convertToResponseSubTaskDto(subtask))
