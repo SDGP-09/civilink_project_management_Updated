@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/main")
+@CrossOrigin(origins = "*")
 
 public class MainTaskContollers {
     private final MainTaskService mainTaskService;
@@ -27,7 +28,7 @@ public class MainTaskContollers {
 
 
     @PostMapping("/create-main-task")
-    @PreAuthorize("hasRole('ROLE_HOST') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_GENERAL_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto, Authentication authentication) {
 
         Jwt jwt = (Jwt) authentication.getPrincipal();
