@@ -84,18 +84,7 @@ public class SubTaskServiceImpl implements SubTaskService {
         return subtaskUtil.convertToResponseSubTaskDto(subTask);
     }
 
-    // Retrieve subtasks for a specific main task
-//    @Override
-//    public List<ResponseSubTaskDto> getSubTasksByMainTaskId(Long id) {
-//        MainTask mainTask = mainTaskRepository.findById(id).orElse(null);
-//        if(mainTask == null){
-//            throw new MainTaskNotFoundException("Main Task not found with id: " + id);
-//        }
-//        List<SubTask> subTasks = subTaskRepository.findByMainTaskId(id);
-//        return subTasks.stream()
-//                .map(subtaskUtil::convertToResponseSubTaskDto)
-//                .collect(Collectors.toList());
-//    }
+
 
 
     @Override
@@ -153,15 +142,7 @@ public class SubTaskServiceImpl implements SubTaskService {
         }
     }
 
-    // Delete all subtasks of a specific main task
 
-    //public void deleteAllSubTasks(Long mainTaskId) {
-
-    //if(mainTaskId != null){
-    // subTaskRepository.deleteSubTaskByMainTaskId(mainTaskId);
-    // } else {
-    //throw new RuntimeException("MainTask with ID " + mainTaskId + " not found.");
-    //}
 
 
     @Override

@@ -2,14 +2,10 @@ package com.civilink.civilink_project_management.services.Impl;
 
 import com.civilink.civilink_project_management.dtos.requests.RequestMainTaskDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
-import com.civilink.civilink_project_management.entities.Contractor;
 import com.civilink.civilink_project_management.entities.MainTask;
-import com.civilink.civilink_project_management.exception.ContractorNotFoundException;
 import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
-import com.civilink.civilink_project_management.repositories.ContractorRepository;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.MainTaskService;
-import com.civilink.civilink_project_management.util.ContractorUtil;
 import com.civilink.civilink_project_management.util.MaintaskUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,27 +16,17 @@ import java.util.stream.Collectors;
 @Service
 public class MainTaskServiceImpl implements MainTaskService {
     private final MainTaskRepository mainTaskRepository;
-    private final ContractorRepository contractorRepository;
-    private final ContractorUtil contractorUtil;
     private final MaintaskUtil maintaskUtil;
 
     @Autowired
-    public MainTaskServiceImpl(MainTaskRepository mainTaskRepository, ContractorRepository contractorRepository,
-                               ContractorUtil contractorUtil, MaintaskUtil maintaskUtil) {
+    public MainTaskServiceImpl(MainTaskRepository mainTaskRepository, MaintaskUtil maintaskUtil) {
         this.mainTaskRepository = mainTaskRepository;
-        this.contractorRepository = contractorRepository;
-        this.contractorUtil = contractorUtil;
         this.maintaskUtil = maintaskUtil;
     }
 
     @Override
     public ResponseMainTaskDto createMainTask(RequestMainTaskDto requestMainTaskDto, String groupId) {
 
-        // Retrieve Contractor
-//        Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
-//        if (contractor == null){
-//            throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
-//        }
 
         System.out.println(requestMainTaskDto.toString());
 
@@ -51,8 +37,9 @@ public class MainTaskServiceImpl implements MainTaskService {
         mainTask.setStartDate(requestMainTaskDto.getStartDate());
         mainTask.setEndDate(requestMainTaskDto.getEndDate());
         mainTask.setDescription(requestMainTaskDto.getDescription());
-//        mainTask.setContractor(contractor);
         mainTask.setGroupId(groupId);
+        mainTask.setExpanded(requestMainTaskDto.isExpanded());
+        mainTask.setContractorId(requestMainTaskDto.getContractorId());
 
         // Save to the database
         MainTask savedmainTask = mainTaskRepository.save(mainTask);
@@ -65,21 +52,31 @@ public class MainTaskServiceImpl implements MainTaskService {
         responseMainTaskDto.setStartDate(savedmainTask.getStartDate());
         responseMainTaskDto.setEndDate(savedmainTask.getEndDate());
         responseMainTaskDto.setDescription(savedmainTask.getDescription());
-//        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(mainTask.getContractor()));
+        responseMainTaskDto.setExpanded(savedmainTask.isExpanded());
+        responseMainTaskDto.setContractorId(savedmainTask.getContractorId());
         return responseMainTaskDto;
     }
 
 
 
-
-
-
     //Rerieve All Main tasks
+   // @Override
+    //public List<ResponseMainTaskDto> getAllMainTasks(String group){
+        //List<MainTask> mainTasks = mainTaskRepository.findAllByGroupId(group);
+        //return mainTasks.stream().map(maintaskUtil::convertToResponseMainTaskDto).collect(Collectors.toList());
+    //}
+
     @Override
-    public List<ResponseMainTaskDto> getAllMainTasks(String group){
-        List<MainTask> mainTasks = mainTaskRepository.findAllByGroupId(group);
-        return mainTasks.stream().map(maintaskUtil::convertToResponseMainTaskDto).collect(Collectors.toList());
+    public List<ResponseMainTaskDto> getAllMainTasks(String groupId) {
+        List<MainTask> mainTasks = mainTaskRepository.findAllMainTasks(groupId);
+
+        // Convert MainTask entities to Response DTOs
+        return mainTasks.stream()
+                .map(maintaskUtil::convertToResponseMainTaskDto)
+                .collect(Collectors.toList());
     }
+
+
 
     //Retrieve a Specific Main task
     @Override
@@ -105,14 +102,6 @@ public class MainTaskServiceImpl implements MainTaskService {
             throw new MainTaskNotFoundException("Main Task not found with id: " + taskId);
         }
 
-        // Check if contractor needs to be updated
-//        if (requestMainTaskDto.getContractorId() != null) {
-//            Contractor contractor = contractorRepository.findById(requestMainTaskDto.getContractorId()).orElse(null);
-//            if(contractor == null) {
-//                throw new ContractorNotFoundException("Contractor not found with id: " + requestMainTaskDto.getContractorId());
-//            }
-////            existingTask.setContractor(contractor);
-//        }
 
         // Update fields
         if (requestMainTaskDto.getTaskname() != null) {
@@ -130,6 +119,10 @@ public class MainTaskServiceImpl implements MainTaskService {
         if (requestMainTaskDto.getDescription() != null) {
             existingTask.setDescription(requestMainTaskDto.getDescription());
         }
+        if (requestMainTaskDto.getContractorId() != null) { // Allow updating contractor
+            existingTask.setContractorId(requestMainTaskDto.getContractorId());
+        }
+        existingTask.setExpanded(requestMainTaskDto.isExpanded());
 
         // Save the updated task
         MainTask updatedTask = mainTaskRepository.save(existingTask);
@@ -142,11 +135,11 @@ public class MainTaskServiceImpl implements MainTaskService {
         responseMainTaskDto.setStartDate(updatedTask.getStartDate());
         responseMainTaskDto.setEndDate(updatedTask.getEndDate());
         responseMainTaskDto.setDescription(updatedTask.getDescription());
-//        responseMainTaskDto.setContractor(contractorUtil.convertToResponseContractorDto(updatedTask.getContractor()));
+        responseMainTaskDto.setExpanded(updatedTask.isExpanded());
+        responseMainTaskDto.setContractorId(updatedTask.getContractorId());
 
         return responseMainTaskDto;
     }
-
 
 
 

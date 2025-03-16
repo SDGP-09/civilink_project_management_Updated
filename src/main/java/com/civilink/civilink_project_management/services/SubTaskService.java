@@ -9,7 +9,6 @@ public interface SubTaskService {
     ResponseSubTaskDto createSubTask(RequestSubTaskDto request);
     List<ResponseSubTaskDto> getAllSubTasks();
     ResponseSubTaskDto getSubTaskById(Long id);
-    //List<ResponseSubTaskDto> getSubTasksByMainTaskId(Long id);
     ResponseSubTaskDto updateSubTask(Long subTaskId, RequestSubTaskDto requestSubTaskDto);
     void deleteAllSubTasksbyMaintask(Long mainTaskId);
     void deleteSubTask(Long subTaskId);

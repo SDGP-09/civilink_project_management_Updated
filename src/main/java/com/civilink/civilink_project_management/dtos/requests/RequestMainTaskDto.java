@@ -10,18 +10,21 @@ public class RequestMainTaskDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    //private List<Long> subtaskIds;  // Reference to SubTask IDs
-    private Long contractorId;     // Reference to Contractor ID
+    private boolean expanded;
+    private String contractorId;
 
 
-    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description, Long contractorId) {
+
+    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description, boolean expanded, String contractorId) {
         this.taskname = taskname;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
-       // this.subtaskIds = subtaskIds;
+        this.expanded = expanded;
         this.contractorId = contractorId;
+
+
     }
 
     public RequestMainTaskDto() {
@@ -62,17 +65,19 @@ public class RequestMainTaskDto {
         this.description = description;
     }
 
-    //public List<Long> getSubtaskIds() {return subtaskIds;
-    //}
-
-    //public void setSubtaskIds(List<Long> subtaskIds) {
-       // this.subtaskIds = subtaskIds;
-    //}
-
-    public Long getContractorId() {return contractorId;
+    public boolean isExpanded() {
+        return expanded;
     }
 
-    public void setContractorId(Long contractorId) {
-        this.contractorId = contractorId;
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
+
+    public String getContractorId() {return contractorId;
+    }
+
+    public void setContractorId(String contractorId) {this.contractorId = contractorId;
+    }
+
+
 }

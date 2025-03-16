@@ -11,7 +11,9 @@ public class ResponseMainTaskDto {
     private LocalDate endDate;
     private String description;
     private List<ResponseSubTaskDto> subtasks;
-    private ResponseContractorDto contractor;
+    private boolean expanded;
+    private String contractorId;
+
 
     public ResponseMainTaskDto() {
     }
@@ -72,11 +74,19 @@ public class ResponseMainTaskDto {
         this.subtasks = subtasks;
     }
 
-    public ResponseContractorDto getContractor() {
-        return contractor;
+    public boolean isExpanded() {
+        return expanded;
     }
 
-    public void setContractor(ResponseContractorDto contractor) {
-        this.contractor = contractor;
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
+
+    public String getContractorId() {return contractorId;}
+
+    public void setContractorId(String contractorId) {this.contractorId = contractorId;}
+
+
 }
+
+

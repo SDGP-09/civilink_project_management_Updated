@@ -28,7 +28,7 @@ public class MainTaskContollers {
 
 
     @PostMapping("/create-main-task")
-    @PreAuthorize("hasRole('ROLE_GENARAL_USER') or hasRole('ROLE_GROUP_M1')")
+    @PreAuthorize("hasRole('ROLE_GENERAL_USER') or hasRole('ROLE_GROUP_M1')")
     public ResponseEntity<StandardResponse> createMainTask(@RequestBody RequestMainTaskDto requestMainTaskDto, Authentication authentication) {
 
         Jwt jwt = (Jwt) authentication.getPrincipal();
@@ -58,6 +58,7 @@ public class MainTaskContollers {
         Jwt jwt = (Jwt) authentication.getPrincipal();
         List<String> groups = jwt.getClaimAsStringList("group");
 
+
         for(String a : groups){
             System.out.println(a);
         }
@@ -74,6 +75,8 @@ public class MainTaskContollers {
                 HttpStatus.OK
         );
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<StandardResponse> getMainTaskById(@PathVariable Long id, Authentication authentication) {

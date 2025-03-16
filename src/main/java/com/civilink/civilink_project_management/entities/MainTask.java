@@ -13,24 +13,26 @@ public class MainTask {
     private Long id;
 
     private String taskname;
-    private String status;   // Pending, In Progress, Completed
+    private String status;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
 
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    @Column(nullable = false)
+    @Column(name = "group_id", nullable = false)
     private String groupId;
 
+    @Column(nullable = false)
+    private boolean expanded;
 
-    public MainTask(Long id, String taskname, String status, LocalDate startDate, LocalDate endDate, String description, String groupId, List<SubTask> subtasks, Contractor contractor) {
+    @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    private List<SubTask> subtasks;
+
+    @Column(name = "contractor_id", nullable = false)  // Store only contractor's ID
+    private String contractorId;
+
+
+
+    public MainTask(Long id, String taskname, String status, LocalDate startDate, LocalDate endDate, String description, String groupId, List<SubTask> subtasks,boolean expanded,String contractorId ) {
         this.id = id;
         this.taskname = taskname;
         this.status = status;
@@ -39,17 +41,11 @@ public class MainTask {
         this.description = description;
         this.groupId = groupId;
         this.subtasks = subtasks;
-//        this.contractor = contractor;
+        this.expanded = expanded;
+        this.contractorId = contractorId;
     }
 
-    @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-    private List<SubTask> subtasks;
 
-
-    // Many tasks belong to one contractor
-//    @ManyToOne
-//    @JoinColumn(name = "contractor_id", nullable = false)
-//    private Contractor contractor;
 
 
     public MainTask() {
@@ -111,11 +107,32 @@ public class MainTask {
         this.subtasks = subtasks;
     }
 
-//    public Contractor getContractor() {
-//        return contractor;
-//    }
-//
-//    public void setContractor(Contractor contractor) {
-//        this.contractor = contractor;
-//    }
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
+
+    public String getContractorId() {
+        return contractorId;
+    }
+
+    public void setContractorId(String contractorId) {
+        this.contractorId = contractorId;
+    }
+
+
 }
+
+

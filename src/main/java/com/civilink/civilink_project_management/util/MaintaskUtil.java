@@ -9,12 +9,11 @@ import java.util.stream.Collectors;
 @Component
 public class MaintaskUtil {
 
-    private ContractorUtil contractorUtil;
+
     private SubtaskUtil subtaskUtil;
 
 
-    public MaintaskUtil(ContractorUtil contractorUtil,SubtaskUtil subtaskUtil) {
-        this.contractorUtil = contractorUtil;
+    public MaintaskUtil(SubtaskUtil subtaskUtil) {
         this.subtaskUtil = subtaskUtil;
     }
 
