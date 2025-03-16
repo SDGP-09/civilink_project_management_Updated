@@ -21,7 +21,7 @@ public class MaintaskUtil {
 
         ResponseMainTaskDto responseMainTaskDto = new ResponseMainTaskDto();
         responseMainTaskDto.setId(mainTask.getId());
-        responseMainTaskDto.setTaskname(mainTask.getTaskname());
+        responseMainTaskDto.setTaskname(mainTask.getTaskName());
         responseMainTaskDto.setStatus(mainTask.getStatus());
         responseMainTaskDto.setStartDate(mainTask.getStartDate());
         responseMainTaskDto.setEndDate(mainTask.getEndDate());

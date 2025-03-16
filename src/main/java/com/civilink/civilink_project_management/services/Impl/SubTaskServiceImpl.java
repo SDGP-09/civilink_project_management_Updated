@@ -50,7 +50,7 @@ public class SubTaskServiceImpl implements SubTaskService {
 
         // Create the SubTask
         SubTask subTask = new SubTask();
-        subTask.setTaskname(requestSubTaskDto.getTaskname());
+        subTask.setTaskName(requestSubTaskDto.getTaskname());
         subTask.setStatus(requestSubTaskDto.getStatus());
         subTask.setStartDate(requestSubTaskDto.getStartDate());
         subTask.setEndDate(requestSubTaskDto.getEndDate());
@@ -107,7 +107,7 @@ public class SubTaskServiceImpl implements SubTaskService {
 
         // update fields
         if (requestSubTaskDto.getTaskname() != null) {
-            existingsubTask.setTaskname(requestSubTaskDto.getTaskname());
+            existingsubTask.setTaskName(requestSubTaskDto.getTaskname());
         }
         if (requestSubTaskDto.getStatus() != null) {
             existingsubTask.setStatus(requestSubTaskDto.getStatus());

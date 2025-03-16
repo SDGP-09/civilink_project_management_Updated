@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface MainTaskRepository extends JpaRepository<MainTask, Long> {
 
-    @Query(value = "SELECT * FROM main_task WHERE group_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM MainTask WHERE groupId = ?1", nativeQuery = true)
     List<MainTask> findAllByGroupId(String groupId);
 
 

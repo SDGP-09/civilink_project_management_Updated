@@ -11,7 +11,7 @@ public class SubtaskUtil {
 
         ResponseSubTaskDto responseSubTaskDto = new ResponseSubTaskDto();
         responseSubTaskDto.setId(subTask.getId());
-        responseSubTaskDto.setTaskname(subTask.getTaskname());
+        responseSubTaskDto.setTaskname(subTask.getTaskName());
         responseSubTaskDto.setStatus(subTask.getStatus());
         responseSubTaskDto.setStartDate(subTask.getStartDate());
         responseSubTaskDto.setEndDate(subTask.getEndDate());

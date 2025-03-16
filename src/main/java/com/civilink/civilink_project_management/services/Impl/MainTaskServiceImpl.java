@@ -32,7 +32,7 @@ public class MainTaskServiceImpl implements MainTaskService {
 
         //create main task
         MainTask mainTask = new MainTask();
-        mainTask.setTaskname(requestMainTaskDto.getTaskname());
+        mainTask.setTaskName(requestMainTaskDto.getTaskname());
         mainTask.setStatus(requestMainTaskDto.getStatus());
         mainTask.setStartDate(requestMainTaskDto.getStartDate());
         mainTask.setEndDate(requestMainTaskDto.getEndDate());
@@ -47,7 +47,7 @@ public class MainTaskServiceImpl implements MainTaskService {
         //convert to responsedto
         ResponseMainTaskDto responseMainTaskDto = new ResponseMainTaskDto();
         responseMainTaskDto.setId(savedmainTask.getId());
-        responseMainTaskDto.setTaskname(savedmainTask.getTaskname());
+        responseMainTaskDto.setTaskname(savedmainTask.getTaskName());
         responseMainTaskDto.setStatus(savedmainTask.getStatus());
         responseMainTaskDto.setStartDate(savedmainTask.getStartDate());
         responseMainTaskDto.setEndDate(savedmainTask.getEndDate());
@@ -105,7 +105,7 @@ public class MainTaskServiceImpl implements MainTaskService {
 
         // Update fields
         if (requestMainTaskDto.getTaskname() != null) {
-            existingTask.setTaskname(requestMainTaskDto.getTaskname());
+            existingTask.setTaskName(requestMainTaskDto.getTaskname());
         }
         if (requestMainTaskDto.getStatus() != null) {
             existingTask.setStatus(requestMainTaskDto.getStatus());
@@ -130,7 +130,7 @@ public class MainTaskServiceImpl implements MainTaskService {
         // Convert to response DTO
         ResponseMainTaskDto responseMainTaskDto = new ResponseMainTaskDto();
         responseMainTaskDto.setId(updatedTask.getId());
-        responseMainTaskDto.setTaskname(updatedTask.getTaskname());
+        responseMainTaskDto.setTaskname(updatedTask.getTaskName());
         responseMainTaskDto.setStatus(updatedTask.getStatus());
         responseMainTaskDto.setStartDate(updatedTask.getStartDate());
         responseMainTaskDto.setEndDate(updatedTask.getEndDate());

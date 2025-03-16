@@ -12,13 +12,13 @@ public class MainTask {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String taskname;
+    private String taskName;
     private String status;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
 
-    @Column(name = "group_id", nullable = false)
+    @Column(name = "groupId", nullable = false)
     private String groupId;
 
     @Column(nullable = false)
@@ -27,14 +27,14 @@ public class MainTask {
     @OneToMany(mappedBy = "mainTask", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<SubTask> subtasks;
 
-    @Column(name = "contractor_id", nullable = false)  // Store only contractor's ID
+    @Column(name = "contractorId", nullable = false)  // Store only contractor's ID
     private String contractorId;
 
 
 
-    public MainTask(Long id, String taskname, String status, LocalDate startDate, LocalDate endDate, String description, String groupId, List<SubTask> subtasks,boolean expanded,String contractorId ) {
+    public MainTask(Long id, String taskName, String status, LocalDate startDate, LocalDate endDate, String description, String groupId, List<SubTask> subtasks, boolean expanded, String contractorId ) {
         this.id = id;
-        this.taskname = taskname;
+        this.taskName = taskName;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -59,12 +59,12 @@ public class MainTask {
         this.id = id;
     }
 
-    public String getTaskname() {
-        return taskname;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setTaskname(String taskname) {
-        this.taskname = taskname;
+    public void setTaskName(String taskname) {
+        this.taskName = taskname;
     }
 
     public String getStatus() {

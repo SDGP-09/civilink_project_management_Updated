@@ -9,14 +9,14 @@ public class SubTask {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String taskname;
+    private String taskName;
     private String status;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "main_task_id", nullable = false)
+    @JoinColumn(name = "mainTask_id", nullable = false)
     private MainTask mainTask;
 
 
@@ -31,12 +31,12 @@ public class SubTask {
         this.id = id;
     }
 
-    public String getTaskname() {
-        return taskname;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setTaskname(String taskname) {
-        this.taskname = taskname;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public String getStatus() {
