@@ -1,6 +1,8 @@
 package com.civilink.civilink_project_management.controllers;
 
 import com.civilink.civilink_project_management.dtos.requests.RequestMainTaskDto;
+import com.civilink.civilink_project_management.dtos.responses.CompletedProjectsDto;
+import com.civilink.civilink_project_management.dtos.responses.OngoingProjectsDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
 import com.civilink.civilink_project_management.services.*;
 import com.civilink.civilink_project_management.util.StandardResponse;
@@ -96,6 +98,50 @@ public class MainTaskContollers {
                 HttpStatus.OK
         );
     }
+
+
+
+    @GetMapping("/completed-projects/{groupId}")
+    public ResponseEntity<StandardResponse> getCompletedProjects(@PathVariable String groupId, Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("group");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+        List<CompletedProjectsDto> completedProjects = mainTaskService.getCompletedMainTasks(userGroup);
+
+        return new ResponseEntity<>(new StandardResponse(
+                200, "Completed projects retrieved successfully", completedProjects), HttpStatus.OK);
+    }
+
+
+
+
+    @GetMapping("/ongoing-projects/{groupId}")
+    public ResponseEntity<StandardResponse> getOngoingProjects(@PathVariable String groupId, Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        List<String> groups = jwt.getClaimAsStringList("group");
+
+        if (groups == null || groups.isEmpty()) {
+            throw new RuntimeException("User does not belong to any group.");
+        }
+
+        String userGroup = groups.get(0);
+
+        List<OngoingProjectsDto> ongoingProjects = mainTaskService.getOngoingMainTasks(userGroup);
+
+        return new ResponseEntity<>(new StandardResponse(
+                200, "Ongoing projects retrieved successfully", ongoingProjects), HttpStatus.OK);
+    }
+
+
+
 
 
     @PutMapping("/update/{id}")

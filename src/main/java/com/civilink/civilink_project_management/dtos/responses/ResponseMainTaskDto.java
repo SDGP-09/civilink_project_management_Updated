@@ -13,6 +13,9 @@ public class ResponseMainTaskDto {
     private List<ResponseSubTaskDto> subtasks;
     private boolean expanded;
     private String contractorId;
+    private String[] images;
+
+
 
 
     public ResponseMainTaskDto() {
@@ -86,7 +89,13 @@ public class ResponseMainTaskDto {
 
     public void setContractorId(String contractorId) {this.contractorId = contractorId;}
 
+    public String[] getImages() {
+        return images;
+    }
 
+    public void setImages(String[] images) {
+        this.images = images;
+    }
 }
 
 

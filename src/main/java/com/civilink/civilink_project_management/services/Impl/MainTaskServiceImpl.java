@@ -1,14 +1,22 @@
 package com.civilink.civilink_project_management.services.Impl;
 
 import com.civilink.civilink_project_management.dtos.requests.RequestMainTaskDto;
+import com.civilink.civilink_project_management.dtos.responses.CompletedProjectsDto;
+import com.civilink.civilink_project_management.dtos.responses.OngoingProjectsDto;
 import com.civilink.civilink_project_management.dtos.responses.ResponseMainTaskDto;
 import com.civilink.civilink_project_management.entities.MainTask;
+import com.civilink.civilink_project_management.entities.MainTaskImage;
 import com.civilink.civilink_project_management.exception.MainTaskNotFoundException;
 import com.civilink.civilink_project_management.repositories.MainTaskRepository;
 import com.civilink.civilink_project_management.services.MainTaskService;
+import com.civilink.civilink_project_management.services.StorageService;
 import com.civilink.civilink_project_management.util.MaintaskUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +25,14 @@ import java.util.stream.Collectors;
 public class MainTaskServiceImpl implements MainTaskService {
     private final MainTaskRepository mainTaskRepository;
     private final MaintaskUtil maintaskUtil;
+    private final StorageService storageService;
 
     @Autowired
-    public MainTaskServiceImpl(MainTaskRepository mainTaskRepository, MaintaskUtil maintaskUtil) {
+    public MainTaskServiceImpl(MainTaskRepository mainTaskRepository, MaintaskUtil maintaskUtil,StorageService storageService) {
         this.mainTaskRepository = mainTaskRepository;
         this.maintaskUtil = maintaskUtil;
+        this.storageService = storageService;
+
     }
 
     @Override
@@ -44,7 +55,31 @@ public class MainTaskServiceImpl implements MainTaskService {
         // Save to the database
         MainTask savedmainTask = mainTaskRepository.save(mainTask);
 
-        //convert to responsedto
+        // Upload images and save URLs in DB
+        List<MainTaskImage> imagesList = new ArrayList<>();
+        List<String> imageUrls = new ArrayList<>(); //Collect URLs for response
+        if (requestMainTaskDto.getImages() != null && !requestMainTaskDto.getImages().isEmpty()) {
+            for (MultipartFile image : requestMainTaskDto.getImages()) {
+                try {
+                    byte[] fileBytes = image.getBytes(); // Convert image to byte array
+                    String contentType = image.getContentType(); // Get content type
+                    String imageUrl = storageService.uploadFile(fileBytes, contentType); // Upload image
+
+                    // Store image URL in DB
+                    MainTaskImage mainTaskImage = new MainTaskImage(imageUrl, savedmainTask);
+                    imagesList.add(mainTaskImage);
+                    imageUrls.add(imageUrl); //Collect URLs for response DTO
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Save images in the database
+        savedmainTask.setImages(imagesList);
+        mainTaskRepository.save(savedmainTask);
+
+        // Convert to Response DTO
         ResponseMainTaskDto responseMainTaskDto = new ResponseMainTaskDto();
         responseMainTaskDto.setId(savedmainTask.getId());
         responseMainTaskDto.setTaskname(savedmainTask.getTaskName());
@@ -54,8 +89,11 @@ public class MainTaskServiceImpl implements MainTaskService {
         responseMainTaskDto.setDescription(savedmainTask.getDescription());
         responseMainTaskDto.setExpanded(savedmainTask.isExpanded());
         responseMainTaskDto.setContractorId(savedmainTask.getContractorId());
+        responseMainTaskDto.setImages(imageUrls.toArray(new String[0]));
+
         return responseMainTaskDto;
     }
+
 
 
 
@@ -77,7 +115,6 @@ public class MainTaskServiceImpl implements MainTaskService {
     }
 
 
-
     //Retrieve a Specific Main task
     @Override
     public ResponseMainTaskDto getMainTaskById(Long id,String groupId){
@@ -87,6 +124,54 @@ public class MainTaskServiceImpl implements MainTaskService {
         }
         return maintaskUtil.convertToResponseMainTaskDto(mainTask);
     }
+
+
+    @Override
+    public List<CompletedProjectsDto> getCompletedMainTasks(String groupId) {
+        List<MainTask> completedMainTasks = mainTaskRepository.findAllCompletedMainTasks(groupId);
+
+        return completedMainTasks.stream().map(mainTask -> {
+
+            String imageUrl = (mainTask.getImages() != null && !mainTask.getImages().isEmpty()) ? mainTask.getImages().get(0).getImageUrl() : "default_image_url";
+
+            return new CompletedProjectsDto(
+                    mainTask.getId(),
+                    mainTask.getTaskName(),
+                    mainTask.getDescription(),
+                    mainTask.getStatus(),
+                    imageUrl,
+                    mainTask.getStartDate(),
+                    mainTask.getEndDate(),
+                    mainTask.getEndDate(),
+                    mainTask.isVisibility()
+            );
+        }).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<OngoingProjectsDto> getOngoingMainTasks(String groupId) {
+        List<MainTask> ongoingMainTasks = mainTaskRepository.findAllOngoingMainTasks(groupId);
+
+        return ongoingMainTasks.stream().map(mainTask -> {
+            // Get the first image if available
+            String imageUrl = (mainTask.getImages() != null && !mainTask.getImages().isEmpty())
+                    ? mainTask.getImages().get(0).getImageUrl()
+                    : "default_image_url";
+
+            return new OngoingProjectsDto(
+                    mainTask.getId(),
+                    mainTask.getTaskName(),
+                    mainTask.getStatus(),
+                    mainTask.getDescription(),
+                    mainTask.getStartDate(),
+                    mainTask.getEndDate(),
+                    imageUrl
+            );
+        }).collect(Collectors.toList());
+    }
+
+
 
 
 

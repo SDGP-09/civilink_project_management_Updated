@@ -1,4 +1,6 @@
 package com.civilink.civilink_project_management.dtos.requests;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,10 +14,11 @@ public class RequestMainTaskDto {
     private String description;
     private boolean expanded;
     private String contractorId;
+    private List<MultipartFile> images;
 
 
 
-    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description, boolean expanded, String contractorId) {
+    public RequestMainTaskDto(String taskname,String status,LocalDate startDate,LocalDate endDate,String description, boolean expanded, String contractorId,List<MultipartFile>images) {
         this.taskname = taskname;
         this.status = status;
         this.startDate = startDate;
@@ -23,6 +26,7 @@ public class RequestMainTaskDto {
         this.description = description;
         this.expanded = expanded;
         this.contractorId = contractorId;
+        this.images = images;
 
 
     }
@@ -79,5 +83,11 @@ public class RequestMainTaskDto {
     public void setContractorId(String contractorId) {this.contractorId = contractorId;
     }
 
+    public List<MultipartFile> getImages() {
+        return images;
+    }
 
+    public void setImages(List<MultipartFile> images) {
+        this.images = images;
+    }
 }

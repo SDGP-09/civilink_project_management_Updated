@@ -18,5 +18,14 @@ public interface MainTaskRepository extends JpaRepository<MainTask, Long> {
     List<MainTask> findAllMainTasks(String groupId);
 
 
+    @Query("SELECT m FROM MainTask m WHERE m.status = 'Completed' AND m.groupId = :groupId")
+    List<MainTask> findAllCompletedMainTasks(String groupId);
+
+    @Query("SELECT m FROM MainTask m WHERE m.status = 'Ongoing' AND m.groupId = :groupId")
+    List<MainTask> findAllOngoingMainTasks(String groupId);
+
+
+
+
 
 }
